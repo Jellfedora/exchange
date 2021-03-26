@@ -1,0 +1,29 @@
+.header {
+  height: 3em;
+  display: flex;
+  margin-bottom: 2.5em;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999;
+  position: relative;
+
+  & h2 {
+    height: 1em;
+    flex: 2;
+    font-weight: bold;
+    font-size: 2em;
+    color: $color-white;
+  }
+  &__buttons {
+    display: flex;
+    align-items: center;
+    &__login {
+      border-radius: 50px;
+      border: none;
+      height: 3em;
+      color: $color-blue;
+      font-size: 0.7em;
+      font-weight: bold;
+    }
+  }
+}
