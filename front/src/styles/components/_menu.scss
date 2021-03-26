@@ -1,0 +1,86 @@
+.menu {
+  &__show-button {
+    cursor: pointer;
+    border: none;
+    color: $color-white;
+    background: none;
+    margin-left: 1em;
+  }
+
+  &__content {
+    position: fixed;
+    height: 100%;
+    width: 100vw;
+    top: 0;
+    left: 100%;
+    background: $linear-blue;
+    height: 100vh;
+    width: 100%;
+    &__header {
+      justify-content: space-between;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-left: 2em;
+      padding-right: 2em;
+      & h2 {
+        height: 1em;
+        flex: 2;
+        font-weight: bold;
+        font-size: 2em;
+        color: $color-white;
+      }
+      & button {
+        cursor: pointer;
+        border: none;
+        color: $color-white;
+        background: none;
+        margin-left: 1em;
+      }
+    }
+    &__links {
+      padding: 2em;
+      display: flex;
+      flex-wrap: wrap;
+      color: $color-white;
+      font-weight: bold;
+      & span {
+        width: 100%;
+        margin-bottom: 1.5em;
+      }
+    }
+  }
+}
+
+// CSS TRANSITIONS
+
+// ShowMenu
+.menu-animation-enter {
+  left: 100%;
+}
+
+.menu-animation-enter-active {
+  left: 50%;
+  transition: left 1000ms;
+}
+
+.menu-animation-enter-done {
+  left: 0;
+  transition: left 1000ms;
+}
+
+// HideMenu
+
+.menu-animation-exit {
+  left: 0;
+}
+
+.menu-animation-exit-active {
+  margin-left: 50%;
+  transition: left 1000ms;
+}
+
+.menu-animation-exit-done {
+  left: 100%;
+  transition: left 1000ms;
+}
