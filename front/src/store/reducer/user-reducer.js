@@ -1,17 +1,21 @@
 const initialState = {
-  // Example action
-  menuIsOpen: false,
+  id: null,
+  firstname: null,
+  email: null,
+  isConnected: false,
 };
 
 function homeReducer(state = initialState, action) {
   let nextState;
   switch (action.type) {
-    // Example reducer
-    case "TOGGLE_MENU":
+    case "SAVE_USER":
       console.log(action.value);
       nextState = {
         ...state,
-        menuIsOpen: action.value,
+        id: action.value.id,
+        firstname: action.value.firstname,
+        email: action.value.email,
+        isConnected: true,
       };
       return nextState || state;
     default:

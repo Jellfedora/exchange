@@ -45,7 +45,7 @@ class UserController extends DefaultController
             $data['data'] = array(
                 'status'  => '201',
                 'message' => 'Informations utilisateurs récupérées',
-                'users' => $searchUser
+                'user' => $searchUser
             );
             return $this->json($data, 201); 
         }

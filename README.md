@@ -1,16 +1,8 @@
 ## Dev
 
-### run backend
+### run symfony
 
-npm run devwatch
-
-### run MongoDB
-
-sudo systemctl start mongod
-
-### run nodeJs devwatch
-
-npm run devwatch
+symfony server:start
 
 ### run front
 

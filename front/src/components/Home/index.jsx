@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import Menu from "../Menu";
 import { connect } from "react-redux";
 import axios from "axios";
-// const apiUrl = process.env.REACT_APP_REST_API;
+import { motion } from "framer-motion";
 
 class Home extends Component {
   constructor(props) {
@@ -26,14 +25,12 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="app">
-        <header className="header">
-          <h2>Exchange</h2>
-          <div className="header__buttons">
-            <button className="header__buttons__login">Connexion</button>
-            <Menu />
-          </div>
-        </header>
+      <motion.div
+        className="home"
+        // animate={{ scale: 0.9 }}
+        // transition={{ duration: 1 }}
+        // exit={{ opacity: 0.5 }}
+      >
         <div className="banner">
           <h1>Votre endroit pour échanger</h1>
           <p>
@@ -49,7 +46,7 @@ class Home extends Component {
             iOS et android !
           </p>
         </div>
-      </div>
+      </motion.div>
     );
   }
 }
