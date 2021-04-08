@@ -20,13 +20,18 @@ function Menu(props) {
             </button>
           </div>
           <div className="menu__content__links">
-            <a>Accueil</a>
+            <Link to="/" onClick={() => setShowMenu(false)}>
+              Accueil
+            </Link>
             {props.userIsConnected ? (
-              <Link to="/account">Mon compte</Link>
+              <Link to="/account" onClick={() => setShowMenu(false)}>
+                Mon compte
+              </Link>
             ) : (
-              <Link to="/connect">Connexion</Link>
+              <Link to="/connect" onClick={() => setShowMenu(false)}>
+                Connexion
+              </Link>
             )}
-            <a>A propos</a>
           </div>
         </div>
       </CSSTransition>
