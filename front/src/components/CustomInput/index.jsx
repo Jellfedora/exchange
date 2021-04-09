@@ -5,10 +5,10 @@ function CustomInput(props) {
     <input
       type={props.type}
       name={props.name}
-      value={props.email}
+      defaultValue={props.defaultValue ? props.defaultValue : ""}
       onChange={props.onChange}
       autoFocus={props.autofocus}
-      autoComplete="true"
+      autoComplete={props.autoComplete ? "true" : "false"}
     />
   );
 }

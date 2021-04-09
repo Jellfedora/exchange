@@ -23,9 +23,10 @@ function Connect(props) {
             <CustomInput
               type="text"
               name="email"
-              email={props.email}
+              value={props.email}
               onChange={props.handleEmailChange}
               autofocus={true}
+              autoComplete="true"
             />
           </div>
           <div className="connect__container__form__password">
@@ -33,7 +34,7 @@ function Connect(props) {
             <CustomInput
               type="password"
               name="password"
-              password={props.password}
+              value={props.password}
               onChange={props.handlePasswordChange}
             />
           </div>

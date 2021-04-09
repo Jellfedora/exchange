@@ -38,7 +38,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     // menuIsOpen: state.home.menuIsOpen,
   };
