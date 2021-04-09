@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import ConnectContainer from "../../containers/ConnectContainer";
 import Home from "../Home";
 import Menu from "../Menu";
-import CookieContainer from "../../containers/CookieContainer";
 
 // Add a new page in top of list otherwise bug
 const pages = [
@@ -17,7 +16,6 @@ const pages = [
 const Navigation = (props) => {
   return (
     <div>
-      <CookieContainer />
       <Router>
         <header className="header">
           <Link to="/">
@@ -26,7 +24,9 @@ const Navigation = (props) => {
           <div className="header__buttons">
             {props.userIsConnected ? (
               <Link to="/account">
-                <button className="header__buttons__login">Mon compte</button>
+                <button className="header__buttons__login">
+                  {props.userFirstname}
+                </button>
               </Link>
             ) : (
               <Link to="/connect">
@@ -60,6 +60,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     userIsConnected: state.user.isConnected,
+    userFirstname: state.user.firstname,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

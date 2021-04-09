@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
+// import axios from "axios";
 import { motion } from "framer-motion";
 
 class Home extends Component {
@@ -13,14 +13,14 @@ class Home extends Component {
     // const config = {
     //   headers: { Authorization: `Bearer ` },
     // };
-    axios
-      .get("http://localhost:3003/")
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .get("http://localhost:3003/")
+    //   .then((response) => {
+    //     console.log(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }
 
   render() {
@@ -58,7 +58,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     // menuIsOpen: state.home.menuIsOpen,
   };

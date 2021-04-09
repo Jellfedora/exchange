@@ -1,17 +1,14 @@
 import { Component } from "react";
-import Cookies from "js-cookie";
 import { connect } from "react-redux";
+import Cookies from "js-cookie";
 
-class CookieContainer extends Component {
+class AutoLoginContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
       idCookie: Cookies.get("id"),
       firstnameCookie: Cookies.get("firstname"),
       emailCookie: Cookies.get("email"),
-      showerrorMsg: false,
     };
   }
 
@@ -24,15 +21,15 @@ class CookieContainer extends Component {
         email: this.state.emailCookie,
       };
 
-      const action = { type: "SAVE_USER", value: cookie };
+      const action = { type: "LOG_IN", value: cookie };
       this.props.dispatch(action);
     }
   }
+
   render() {
     return null;
   }
 }
-
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch: (action) => {
@@ -41,8 +38,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     // menuIsOpen: state.home.menuIsOpen,
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(CookieContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AutoLoginContainer);

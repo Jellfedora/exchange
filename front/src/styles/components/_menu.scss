@@ -44,10 +44,16 @@
       flex-wrap: wrap;
       color: $color-white;
       font-weight: bold;
-      & a {
-        cursor: pointer;
+      &__items {
         width: 100%;
-        margin-bottom: 1.5em;
+        display: flex;
+        flex-wrap: wrap;
+        & :nth-child(n) {
+          display: block;
+          cursor: pointer;
+          width: 100%;
+          margin-bottom: 1.5em;
+        }
       }
     }
   }

@@ -21,6 +21,8 @@ function Connect(props) {
           <div className="connect__container__form__login">
             <h4>Email</h4>
             <CustomInput
+              type="text"
+              name="email"
               email={props.email}
               onChange={props.handleEmailChange}
               autofocus={true}
@@ -29,13 +31,15 @@ function Connect(props) {
           <div className="connect__container__form__password">
             <h4>Mot de passe</h4>
             <CustomInput
+              type="password"
+              name="password"
               password={props.password}
               onChange={props.handlePasswordChange}
             />
           </div>
-          <a className="connect__container__form__forgot-password" href="#">
-            Mot de passe oublié ?
-          </a>
+          <div className="connect__container__form__forgot-password">
+            <a href="#">Mot de passe oublié ?</a>
+          </div>
           {!props.startSpinner ? (
             <div className="connect__container__form__submit">
               {props.email && props.password && (
@@ -49,10 +53,10 @@ function Connect(props) {
           )}
         </form>
 
-        <div className="connect__container__register">
+        {/* <div className="connect__container__register">
           <p>Besoin d'un compte?</p>
           <a href="#">Inscription</a>
-        </div>
+        </div> */}
       </div>
     </div>
   );

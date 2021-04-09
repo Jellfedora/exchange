@@ -5,11 +5,10 @@ const initialState = {
   isConnected: false,
 };
 
-function homeReducer(state = initialState, action) {
+function userReducer(state = initialState, action) {
   let nextState;
   switch (action.type) {
-    case "SAVE_USER":
-      console.log(action.value);
+    case "LOG_IN":
       nextState = {
         ...state,
         id: action.value.id,
@@ -18,9 +17,18 @@ function homeReducer(state = initialState, action) {
         isConnected: true,
       };
       return nextState || state;
+    case "LOG_OUT":
+      nextState = {
+        ...state,
+        id: null,
+        firstname: null,
+        email: null,
+        isConnected: false,
+      };
+      return nextState || state;
     default:
       return state;
   }
 }
 
-export default homeReducer;
+export default userReducer;

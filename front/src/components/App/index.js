@@ -6,6 +6,7 @@ import store from "../../store";
 import "../../styles/index.scss";
 // Import Components
 import Navigation from "../Navigation";
+import AutoLoginContainer from "../../containers/AutoLoginContainer";
 
 // Fontawesome 5
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -21,6 +22,7 @@ library.add(faFontAwesomeFlag, faSync, faReact, faBars, faTimes, faSpinner);
 const App = () => {
   return (
     <Provider store={store} className="app">
+      <AutoLoginContainer />
       <Navigation />
     </Provider>
   );

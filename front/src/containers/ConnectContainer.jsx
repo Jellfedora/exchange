@@ -10,16 +10,13 @@ class ConnectContainer extends Component {
     this.state = {
       email: "",
       password: "",
-      idCookie: Cookies.get("id"),
-      firstnameCookie: Cookies.get("firstname"),
-      emailCookie: Cookies.get("email"),
       showerrorMsg: false,
       startSpinner: false,
     };
   }
 
-  componentDidMount() {
-    // Si déjà connecté redirige vers la home
+  componentDidUpdate() {
+    // If connected, redirect to home
     if (this.props.userIsConnected) {
       this.props.history.push("/");
     }
@@ -44,7 +41,8 @@ class ConnectContainer extends Component {
         password: this.state.password,
       })
       .then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
+        this.setState({ startSpinner: false });
         // Save Cookie
         Cookies.set("id", response.data.data.user[0].id, { expires: 30 });
         Cookies.set("firstname", response.data.data.user[0].firstname, {
@@ -52,13 +50,12 @@ class ConnectContainer extends Component {
         });
         Cookies.set("email", response.data.data.user[0].email, { expires: 30 });
         // Save user in store
-        const action = { type: "SAVE_USER", value: response.data.data.user[0] };
+        const action = { type: "LOG_IN", value: response.data.data.user[0] };
         this.props.dispatch(action);
-        this.setState({ startSpinner: false });
         this.props.history.push("/");
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.setState({ showerrorMsg: true, startSpinner: false });
       });
   };
