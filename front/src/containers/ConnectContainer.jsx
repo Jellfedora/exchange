@@ -41,16 +41,16 @@ class ConnectContainer extends Component {
         password: this.state.password,
       })
       .then((response) => {
-        // console.log(response.data.data);
+        console.log(response.data.data);
         this.setState({ startSpinner: false });
         // Save Cookie
-        Cookies.set("id", response.data.data.user[0].id, { expires: 30 });
-        Cookies.set("firstname", response.data.data.user[0].firstname, {
+        Cookies.set("id", response.data.data.user.id, { expires: 30 });
+        Cookies.set("firstname", response.data.data.user.firstname, {
           expires: 30,
         });
-        Cookies.set("email", response.data.data.user[0].email, { expires: 30 });
+        Cookies.set("email", response.data.data.user.email, { expires: 30 });
         // Save user in store
-        const action = { type: "LOG_IN", value: response.data.data.user[0] };
+        const action = { type: "LOG_IN", value: response.data.data.user };
         this.props.dispatch(action);
         this.props.history.push("/");
       })

@@ -26,6 +26,14 @@ function userReducer(state = initialState, action) {
         isConnected: false,
       };
       return nextState || state;
+    case "EDIT_USER":
+      nextState = {
+        ...state,
+        id: action.value.id,
+        firstname: action.value.firstname,
+        email: action.value.email,
+      };
+      return nextState || state;
     default:
       return state;
   }

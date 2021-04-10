@@ -11,13 +11,13 @@ import AutoLoginContainer from "../../containers/AutoLoginContainer";
 // Fontawesome 5
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faSync,
   faBars,
   faTimes,
   faSpinner,
+  faEdit,
 } from "@fortawesome/free-solid-svg-icons";
-import { faReact, faFontAwesomeFlag } from "@fortawesome/free-brands-svg-icons"; //For brand icons
-library.add(faFontAwesomeFlag, faSync, faReact, faBars, faTimes, faSpinner);
+import { faReact } from "@fortawesome/free-brands-svg-icons"; //For brand icons
+library.add(faReact, faBars, faTimes, faSpinner, faEdit);
 
 const App = () => {
   return (

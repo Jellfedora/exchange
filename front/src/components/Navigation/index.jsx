@@ -1,14 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
 
 import ConnectContainer from "../../containers/ConnectContainer";
+import AccountContainer from "../../containers/AccountContainer";
 import Home from "../Home";
 import Menu from "../Menu";
 
 // Add a new page in top of list otherwise bug
 const pages = [
+  { path: "/account", componentName: AccountContainer },
   { path: "/connect", componentName: ConnectContainer },
   { path: "/", componentName: Home },
 ];
