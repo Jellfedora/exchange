@@ -24,7 +24,7 @@ class Avatar
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=false)
      *
      * @var string|null
      */
@@ -41,6 +41,7 @@ class Avatar
     public function __construct()
     {
         $this->updatedAt = new \DateTime();
+        $this->imageName = 'default.jpg';
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
