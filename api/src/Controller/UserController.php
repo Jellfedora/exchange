@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Controller;
 
@@ -17,7 +17,7 @@ class UserController extends DefaultController
     /**
      * @Route("/api/user/create", name="create_user", methods="POST")
      */
-    public function createUser( Request $request, SerializerInterface $serializer, UserService $userService)
+    public function createUser(Request $request, SerializerInterface $serializer, UserService $userService)
     {
         $postData = $request->getContent();
         $user = $serializer->deserialize($postData, User::class, 'json');
@@ -56,7 +56,8 @@ class UserController extends DefaultController
      * @Route("/api/login", name="login", methods="POST")
      * return search user or error message
      */
-    public function login(Request $request,SerializerInterface $serializer,UserService $userService) {
+    public function login(Request $request, SerializerInterface $serializer, UserService $userService)
+    {
 
         // Received datas
         $postData = $request->getContent();
@@ -65,22 +66,21 @@ class UserController extends DefaultController
         //Search User
         $searchUser = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findOneBy(['email'=>$user->getEmail()]);
-        ;
+            ->findOneBy(['email' => $user->getEmail()]);;
 
-        $verifiedPassword=$userService->verifyPassword($user,$searchUser->getPassword());
+        $verifiedPassword = $userService->verifyPassword($user, $searchUser->getPassword());
         if ($verifiedPassword) {
             $data['data'] = array(
-                        'status'  => '201',
-                        'message' => 'Informations utilisateurs récupérées',
-                        'user' => [
-                            'id' => $searchUser->getId(),
-                            'email' => $searchUser->getEmail(),
-                            'firstname' => $searchUser->getFirstname(),
-                            'avatarUrl'=>$searchUser->getAvatarUrl()
-                        ]
-                    );
-                    return $this->json($data, 201); 
+                'status'  => '201',
+                'message' => 'Informations utilisateurs récupérées',
+                'user' => [
+                    'id' => $searchUser->getId(),
+                    'email' => $searchUser->getEmail(),
+                    'firstname' => $searchUser->getFirstname(),
+                    'avatarUrl' => $searchUser->getAvatarUrl()
+                ]
+            );
+            return $this->json($data, 201);
         } else {
             $data['data'] = array(
                 'status'  => '422',
@@ -95,7 +95,8 @@ class UserController extends DefaultController
      * @Route("/api/get_all_users", name="get_all_users", methods="GET")
      * return all users if exists or never
      */
-    public function getAllUsers() {
+    public function getAllUsers()
+    {
         $users = $this->getDoctrine()
             // TODO utiliser le repository pour enlever le password de la réponse
             ->getRepository(User::class)
@@ -172,7 +173,7 @@ class UserController extends DefaultController
     /**
      * @Route("/api/user/avatar-edit/{id}", name="edit_user_avatar", methods="POST")
      */
-    public function editUserAvatar( $id, Request $request, SerializerInterface $serializer, UserService $userService)
+    public function editUserAvatar($id, Request $request, SerializerInterface $serializer, UserService $userService)
     {
         // On récupére l'utilisateur
         $user = $this->getDoctrine()
@@ -186,22 +187,22 @@ class UserController extends DefaultController
                 'message' => 'Pas d\'utilisateur connu pour l\'identifiant ' . $id
             );
             return $this->json($data, 404);
-        } 
+        }
 
         // On récupére l'avatar associé
         $avatar = $this->getDoctrine()
-        ->getRepository(Avatar::class)
-        ->find($user->getAvatar());
+            ->getRepository(Avatar::class)
+            ->find($user->getAvatar());
 
         // On récupére l'image
         $uploadedFile = $request->files->get('file');
-        $directory = __DIR__.'/../../public/uploads/images/avatars';
+        $directory = __DIR__ . '/../../public/uploads/images/avatars';
 
-        // Si elle existe on supprime l'ancienne image
-        if($user->getAvatarImageName()){
-            unlink($directory. "/" . $user->getAvatarImageName());
+        // Si elle existe on supprime l'ancienne image (sauf si c'est l'image par défaut)
+        if ($user->getAvatarImageName() && ($user->getAvatarImageName() !== "default.jpg")) {
+            unlink($directory . "/" . $user->getAvatarImageName());
         }
-        
+
         // On update l'avatar
         try {
             // Try to edit user
@@ -221,10 +222,10 @@ class UserController extends DefaultController
             }
         }
 
-        
+
 
         // On sauvegarde l'image
-        foreach($request->files as $uploadedFile) {
+        foreach ($request->files as $uploadedFile) {
             $file = $uploadedFile->move($directory, $user->getAvatarImageName());
         }
 
@@ -234,5 +235,39 @@ class UserController extends DefaultController
             'avatarUrl' => "https://127.0.0.1:8000/uploads/images/avatars/" . $avatar->getImageName()
         );
         return $this->json($data, 201);
+    }
+
+    /**
+     * Delete User
+     * @Route("/api/user/delete/{id}", name="delete-user", methods="DELETE")
+     * return succes or error
+     */
+    public function deleteUser($id, UserService $userService)
+    {
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($id);
+
+        // On récupére l'avatar associé
+        $avatar = $this->getDoctrine()
+            ->getRepository(Avatar::class)
+            ->find($user->getAvatar());
+
+        if (!$user) {
+            $data['data'] = array(
+                'status'  => '401',
+                'message' => 'Pas d\'utilisateur connu pour l\'identifiant ' . $id
+            );
+            return $this->json($data, 401);
+        } else {
+            $userService->deleteUser($user, $avatar);
+
+            $data['data'] = array(
+                'status'  => '201',
+                'message' => 'Utilisateur supprimé'
+            );
+
+            return $this->json($data, 201);
         }
+    }
 }

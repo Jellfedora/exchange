@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Cookies from "js-cookie";
 import Account from "../components/Account";
 
+const apiUrl = process.env.REACT_APP_REST_API;
 class AccountContainer extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +58,7 @@ class AccountContainer extends Component {
     event.preventDefault();
     this.setState({ startFirstnameSpinner: true });
     axios
-      .put("https://127.0.0.1:8000/api/" + "user/edit/" + this.props.userId, {
+      .put(apiUrl + "user/edit/" + this.props.userId, {
         firstname: this.state.firstname,
       })
       .then((response) => {
@@ -89,7 +90,7 @@ class AccountContainer extends Component {
     event.preventDefault();
     this.setState({ startEmailSpinner: true });
     axios
-      .put("https://127.0.0.1:8000/api/" + "user/edit/" + this.props.userId, {
+      .put(apiUrl + "user/edit/" + this.props.userId, {
         email: this.state.email,
       })
       .then((response) => {
@@ -121,7 +122,7 @@ class AccountContainer extends Component {
     event.preventDefault();
     this.setState({ startPasswordSpinner: true });
     axios
-      .put("https://127.0.0.1:8000/api/" + "user/edit/" + this.props.userId, {
+      .put(apiUrl + "user/edit/" + this.props.userId, {
         password: this.state.password,
       })
       .then((response) => {
@@ -147,10 +148,7 @@ class AccountContainer extends Component {
     formData.append("file", e);
 
     axios
-      .post(
-        "https://127.0.0.1:8000/api/" + "user/avatar-edit/" + this.props.userId,
-        formData
-      )
+      .post(apiUrl + "user/avatar-edit/" + this.props.userId, formData)
       .then((response) => {
         Cookies.set("avatarUrl", response.data.data.avatarUrl, {
           expires: 30,
@@ -171,12 +169,37 @@ class AccountContainer extends Component {
       });
   };
 
+  // DELETE ACCOUNT
+  deleteAccount = (event) => {
+    event.preventDefault();
+
+    axios
+      .delete(apiUrl + "user/delete/" + this.props.userId)
+      .then((response) => {
+        console.log(response);
+        // Delete cookies
+        Cookies.remove("id");
+        Cookies.remove("firstname");
+        Cookies.remove("email");
+        Cookies.remove("avatarUrl");
+        // Delete store
+        const action = {
+          type: "DELETE_USER",
+        };
+        this.props.dispatch(action);
+        // Go to home
+        this.props.history.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   render() {
     return (
       <Account
         // AVATAR
         userAvatarUrl={this.state.avatarUrl}
-        selectedAvatar={this.state.selectedAvatar} //à vérifier si besoin
         submitEditAvatar={this.submitEditAvatar}
         startAvatarSpinner={this.state.startAvatarSpinner}
         // FIRSTNAME
@@ -194,6 +217,8 @@ class AccountContainer extends Component {
         handlePasswordChange={this.handlePasswordChange}
         handlePasswordSubmit={this.handlePasswordSubmit}
         startPasswordSpinner={this.state.startPasswordSpinner}
+        // DELETE ACCOUNT
+        deleteAccount={this.deleteAccount}
       />
     );
   }

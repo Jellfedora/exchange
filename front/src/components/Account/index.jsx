@@ -49,10 +49,7 @@ const Account = (props) => {
                 </div>
               )}
             </div>
-            <CustomFileInput
-              selectedAvatar={props.selectedAvatar}
-              submitEditAvatar={props.submitEditAvatar}
-            />
+            <CustomFileInput submitEditAvatar={props.submitEditAvatar} />
           </div>
           {inputs.map((content, id) => (
             <div className="account__container__form__field" key={id}>
@@ -78,6 +75,9 @@ const Account = (props) => {
               </div>
             </div>
           ))}
+          <div className="account__container__form__delete-account">
+            <button onClick={props.deleteAccount}>Supprimer mon compte</button>
+          </div>
         </form>
       </div>
     </div>

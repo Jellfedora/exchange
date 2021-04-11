@@ -42,6 +42,16 @@ function userReducer(state = initialState, action) {
         avatarUrl: action.value,
       };
       return nextState || state;
+    case "DELETE_USER":
+      nextState = {
+        ...state,
+        id: null,
+        firstname: null,
+        email: null,
+        avatarUrl: null,
+        isConnected: false,
+      };
+      return nextState || state;
     default:
       return state;
   }

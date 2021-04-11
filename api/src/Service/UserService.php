@@ -114,7 +114,7 @@ class UserService extends DefaultController
      */
     public function verifyPassword(User $user, $deserializeDatas)
     {
-        $verifyPassword = $this->password->verify($user->getPassword(),$deserializeDatas);
+        $verifyPassword = $this->password->verify($user->getPassword(), $deserializeDatas);
 
         if ($verifyPassword) {
             return true;
@@ -129,13 +129,13 @@ class UserService extends DefaultController
      * @throws ValidatorErrorException If validation fails
      * @return true If user avatar edited
      */
-    public function editUserAvatar(Avatar $avatar,$uploadedFile)
+    public function editUserAvatar(Avatar $avatar, $uploadedFile)
     {
         // Nom de l'image = $uploadedFile->getClientOriginalName()
         // Extension = $uploadedFile->getClientOriginalExtension()
 
         // ImageName
-        $imageName=$avatar->getId() . rand(0,100) . "." . $uploadedFile->getClientOriginalExtension();
+        $imageName = $avatar->getId() . rand(0, 100) . "." . $uploadedFile->getClientOriginalExtension();
         if ($imageName) {
             $avatar->setImageName($imageName);
         }
@@ -145,6 +145,21 @@ class UserService extends DefaultController
         $this->entityManager->persist($avatar);
         $this->entityManager->flush();
 
+        return true;
+    }
+
+    /**
+     * @param User $user, Avatar $avatar
+     * @return true If user removed
+     */
+    public function deleteuser(User $user, Avatar $avatar)
+    {
+        // On supprime l'avatar
+        $this->entityManager->remove($avatar);
+        // On supprime l'user
+        $this->entityManager->remove($user);
+
+        $this->entityManager->flush();
         return true;
     }
 

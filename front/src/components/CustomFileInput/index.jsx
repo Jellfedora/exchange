@@ -9,7 +9,6 @@ const CustomeFileInput = (props) => {
         id="avatar"
         name="avatar"
         accept="image/png, image/jpeg"
-        value={props.selectedAvatar}
         onChange={(e) => props.submitEditAvatar(e.target.files[0])}
       />
       <label htmlFor="avatar">
