@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import { connect } from "react-redux";
 import Connect from "../components/Connect";
 
+const apiUrl = process.env.REACT_APP_REST_API;
+
 class ConnectContainer extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +38,7 @@ class ConnectContainer extends Component {
     event.preventDefault();
     this.setState({ startSpinner: true });
     axios
-      .post("https://127.0.0.1:8000/api/" + "login", {
+      .post(apiUrl + "login", {
         email: this.state.email,
         password: this.state.password,
       })
