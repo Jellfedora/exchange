@@ -14,6 +14,9 @@ class AccountContainer extends Component {
       startEmailSpinner: false,
       password: "******",
       startPasswordSpinner: false,
+      selectedAvatar: "",
+      avatarUrl: "",
+      startAvatarSpinner: false,
       //   showerrorMsg: false,
     };
   }
@@ -22,11 +25,22 @@ class AccountContainer extends Component {
     this.setState({
       firstname: this.props.userFirstname,
       email: this.props.userEmail,
-      // password: this.props.userEmail,
+      avatarUrl: this.props.avatarUrl,
     });
   }
 
   componentDidUpdate() {
+    // mettre à jour le state
+    if (this.state.avatarUrl === null) {
+      this.setState({ avatarUrl: this.props.avatarUrl });
+    }
+    if (this.state.firstname === null) {
+      this.setState({ firstname: this.props.userFirstname });
+    }
+    if (this.state.email === null) {
+      this.setState({ email: this.props.userEmail });
+    }
+
     // If not connected, redirect to connect page
     if (!this.props.userIsConnected) {
       this.props.history.push("/connect");
@@ -40,7 +54,6 @@ class AccountContainer extends Component {
   };
 
   handleFirstnameSubmit = (event) => {
-    console.log(this.state.firstname);
     event.preventDefault();
     this.setState({ startFirstnameSpinner: true });
     axios
@@ -48,7 +61,6 @@ class AccountContainer extends Component {
         firstname: this.state.firstname,
       })
       .then((response) => {
-        console.log(response.data.data.user);
         this.setState({ startFirstnameSpinner: false });
         // Update Cookie
         Cookies.set("firstname", response.data.data.user.firstname, {
@@ -74,7 +86,6 @@ class AccountContainer extends Component {
   };
 
   handleEmailSubmit = (event) => {
-    console.log(this.state.email);
     event.preventDefault();
     this.setState({ startEmailSpinner: true });
     axios
@@ -82,7 +93,6 @@ class AccountContainer extends Component {
         email: this.state.email,
       })
       .then((response) => {
-        console.log(response.data.data.user);
         this.setState({ startEmailSpinner: false });
         // Update Cookie
         Cookies.set("email", response.data.data.user.email, {
@@ -108,7 +118,6 @@ class AccountContainer extends Component {
   };
 
   handlePasswordSubmit = (event) => {
-    console.log(this.state.password);
     event.preventDefault();
     this.setState({ startPasswordSpinner: true });
     axios
@@ -116,7 +125,6 @@ class AccountContainer extends Component {
         password: this.state.password,
       })
       .then((response) => {
-        console.log(response.data.data.user);
         this.setState({ startPasswordSpinner: false });
         // Upate store
         const action = {
@@ -131,9 +139,46 @@ class AccountContainer extends Component {
       });
   };
 
+  // AVATAR
+  submitEditAvatar = (e) => {
+    // console.log(e);
+    this.setState({ startAvatarSpinner: true });
+    const formData = new FormData();
+    formData.append("file", e);
+
+    axios
+      .post(
+        "https://127.0.0.1:8000/api/" + "user/avatar-edit/" + this.props.userId,
+        formData
+      )
+      .then((response) => {
+        Cookies.set("avatarUrl", response.data.data.avatarUrl, {
+          expires: 30,
+        });
+        const action = {
+          type: "EDIT_AVATAR",
+          value: response.data.data.avatarUrl,
+        };
+        this.props.dispatch(action);
+        this.setState({
+          avatarUrl: response.data.data.avatarUrl,
+          startAvatarSpinner: false,
+        });
+      })
+      .catch((error) => {
+        this.setState({ startAvatarSpinner: false });
+        // console.log(error);
+      });
+  };
+
   render() {
     return (
       <Account
+        // AVATAR
+        userAvatarUrl={this.state.avatarUrl}
+        selectedAvatar={this.state.selectedAvatar} //à vérifier si besoin
+        submitEditAvatar={this.submitEditAvatar}
+        startAvatarSpinner={this.state.startAvatarSpinner}
         // FIRSTNAME
         firstname={this.state.firstname}
         handleFirstnameChange={this.handleFirstnameChange}
@@ -168,6 +213,7 @@ const mapStateToProps = (state) => {
     userEmail: state.user.email,
     userFirstname: state.user.firstname,
     userId: state.user.id,
+    avatarUrl: state.user.avatarUrl,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AccountContainer);

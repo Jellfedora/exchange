@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -31,6 +32,39 @@ class User
      * @ORM\Column(type="string", length=50)
      */
     private $firstname;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Avatar",cascade={"persist"})
+     * @ORM\JoinColumn(name="avatar_id", referencedColumnName="id",nullable=false,)
+     */
+    private $avatar;
+
+    public function __construct()
+    {
+        $this->avatar = new Avatar();
+    }
+
+    public function getAvatar(): ?Avatar
+    {
+        return $this->avatar;
+    }
+
+    public function getAvatarUrl(): ?string
+    {
+        return "https://127.0.0.1:8000/uploads/images/avatars/" . $this->avatar->getImageName();
+    }
+
+    public function getAvatarImageName(): ?string
+    {
+        return $this->avatar->getImageName();
+    }
+
+    public function setAvatarId(?Avatar $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

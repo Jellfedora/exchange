@@ -2,6 +2,7 @@ const initialState = {
   id: null,
   firstname: null,
   email: null,
+  avatarUrl: null,
   isConnected: false,
 };
 
@@ -14,6 +15,7 @@ function userReducer(state = initialState, action) {
         id: action.value.id,
         firstname: action.value.firstname,
         email: action.value.email,
+        avatarUrl: action.value.avatarUrl,
         isConnected: true,
       };
       return nextState || state;
@@ -32,6 +34,12 @@ function userReducer(state = initialState, action) {
         id: action.value.id,
         firstname: action.value.firstname,
         email: action.value.email,
+      };
+      return nextState || state;
+    case "EDIT_AVATAR":
+      nextState = {
+        ...state,
+        avatarUrl: action.value,
       };
       return nextState || state;
     default:

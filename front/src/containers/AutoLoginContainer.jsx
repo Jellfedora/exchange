@@ -9,16 +9,18 @@ class AutoLoginContainer extends Component {
       idCookie: Cookies.get("id"),
       firstnameCookie: Cookies.get("firstname"),
       emailCookie: Cookies.get("email"),
+      avatarUrlCookie: Cookies.get("avatarUrl"),
     };
   }
 
   componentDidMount() {
     // Vérifie si des cookies sont existant pour l'utilisateur
-    if (this.state.emailCookie && this.state.firstnameCookie) {
+    if (Cookies.get("firstname")) {
       let cookie = {
         id: this.state.idCookie,
         firstname: this.state.firstnameCookie,
         email: this.state.emailCookie,
+        avatarUrl: this.state.avatarUrlCookie,
       };
 
       const action = { type: "LOG_IN", value: cookie };

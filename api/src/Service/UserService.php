@@ -9,6 +9,7 @@ namespace App\Service;
 
 use App\Controller\DefaultController;
 use App\Entity\User;
+use App\Entity\Avatar;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\Exception\ValidatorErrorException;
@@ -25,6 +26,47 @@ class UserService extends DefaultController
         $this->validator = $validator;
         $this->entityManager = $entityManager;
         $this->password = $password;
+    }
+
+    /**
+     * @param User $user
+     * 
+     * @throws ValidatorErrorException If validation fails
+     * @return true If user saved
+     */
+    public function addUser(User $user)
+    {
+        // Firstname
+        $firstname = $user->getFirstname();
+        if ($firstname) {
+            $user->setFirstname($firstname);
+        }
+
+        // Password
+        $password = $user->getPassword();
+        if ($password) {
+            $user->setPassword($password);
+        }
+        // Email
+        $email = $user->getEmail();
+        if ($email) {
+            $user->setEmail($email);
+        }
+
+        // Avatar
+        // $user->setAvatarId($avatar);
+
+        // On valide les champs
+        $this->validator->validate($user);
+
+        // Si le password a passé les erreurs on l'encode avant de le save
+        if ($password) {
+            $user->setPassword($this->password->encode($password));
+        }
+
+        $this->save($user);
+
+        return true;
     }
 
     /**
@@ -79,6 +121,31 @@ class UserService extends DefaultController
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param Avatar $avatar, $uploadedFile
+     * 
+     * @throws ValidatorErrorException If validation fails
+     * @return true If user avatar edited
+     */
+    public function editUserAvatar(Avatar $avatar,$uploadedFile)
+    {
+        // Nom de l'image = $uploadedFile->getClientOriginalName()
+        // Extension = $uploadedFile->getClientOriginalExtension()
+
+        // ImageName
+        $imageName=$avatar->getId() . rand(0,100) . "." . $uploadedFile->getClientOriginalExtension();
+        if ($imageName) {
+            $avatar->setImageName($imageName);
+        }
+
+        // On valide les champs
+        $this->validator->validate($avatar);
+        $this->entityManager->persist($avatar);
+        $this->entityManager->flush();
+
+        return true;
     }
 
     /**

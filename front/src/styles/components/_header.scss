@@ -17,14 +17,28 @@
   &__buttons {
     display: flex;
     align-items: center;
-    &__login {
-      border-radius: 50px;
+    &__account {
       border: none;
-      height: 3em;
-      color: $color-blue;
-      font-size: 0.7em;
-      font-weight: bold;
-      width: 7em;
+      background-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      & img {
+        width: 3em;
+        height: 3em;
+        border-radius: 2em;
+        border: 2px solid $color-white;
+      }
+    }
+    &__login {
+      border: none;
+      border-radius: 2em;
+      height: 2.8em;
+      width: 2.8em;
+      color: $color-less-blue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }

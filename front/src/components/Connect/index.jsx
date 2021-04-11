@@ -39,6 +39,7 @@ function Connect(props) {
             />
           </div>
           <div className="connect__container__form__forgot-password">
+            {/* TODO */}
             <a href="#">Mot de passe oublié ?</a>
           </div>
           {!props.startSpinner ? (

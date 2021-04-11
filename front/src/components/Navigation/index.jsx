@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ConnectContainer from "../../containers/ConnectContainer";
 import AccountContainer from "../../containers/AccountContainer";
@@ -25,13 +26,15 @@ const Navigation = (props) => {
           <div className="header__buttons">
             {props.userIsConnected ? (
               <Link to="/account">
-                <button className="header__buttons__login">
-                  {props.userFirstname}
+                <button className="header__buttons__account">
+                  <img src={props.avatarUrl} alt="Mon compte" />
                 </button>
               </Link>
             ) : (
               <Link to="/connect">
-                <button className="header__buttons__login">Connexion</button>
+                <button className="header__buttons__login">
+                  <FontAwesomeIcon icon="sign-in-alt" size="2x" />
+                </button>
               </Link>
             )}
             <Menu />
@@ -59,9 +62,11 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 const mapStateToProps = (state) => {
+  // console.log(state);
   return {
     userIsConnected: state.user.isConnected,
     userFirstname: state.user.firstname,
+    avatarUrl: state.user.avatarUrl,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

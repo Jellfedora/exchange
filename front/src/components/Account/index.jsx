@@ -1,6 +1,7 @@
 import CustomInput from "../CustomInput";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CustomFileInput from "../CustomFileInput";
 
 const Account = (props) => {
   const inputs = [
@@ -29,13 +30,30 @@ const Account = (props) => {
       startSpinner: props.startPasswordSpinner,
     },
   ];
-  console.log(inputs[2].input);
   return (
     <div className="account">
       <h3>Mon compte</h3>
       <div className="account__container">
         <form className="account__container__form">
-          {/* TEST */}
+          <div className="account__container__form__avatar">
+            <div className="account__container__form__avatar__img-container">
+              {!props.startAvatarSpinner ? (
+                <img
+                  // TODO
+                  src={props.userAvatarUrl}
+                  alt="Votre avatar"
+                />
+              ) : (
+                <div className="account__container__form__avatar__img-container__spinner">
+                  <FontAwesomeIcon icon="spinner" spin size="4x" />
+                </div>
+              )}
+            </div>
+            <CustomFileInput
+              selectedAvatar={props.selectedAvatar}
+              submitEditAvatar={props.submitEditAvatar}
+            />
+          </div>
           {inputs.map((content, id) => (
             <div className="account__container__form__field" key={id}>
               <h4>Modifier votre {content.name}</h4>
@@ -46,7 +64,6 @@ const Account = (props) => {
                   defaultValue={content.input}
                   onChange={content.handleChange}
                 />
-
                 {!content.startSpinner ? (
                   <div className="account__container__form__field__content__submit">
                     <button onClick={content.handleSubmit}>
@@ -61,59 +78,6 @@ const Account = (props) => {
               </div>
             </div>
           ))}
-
-          {/* FIRSTNAME */}
-          {/* <div className="account__container__form__firstname">
-            <h4>Modifier votre prénom</h4>
-            <div className="account__container__form__firstname__content">
-              <CustomInput
-                type="text"
-                name="firstname"
-                defaultValue={props.firstname}
-                firstname={props.firstname}
-                onChange={props.handleFirstnameChange}
-                autoComplete="false"
-              />
-
-              {!props.startFirstnameSpinner ? (
-                <div className="account__container__form__firstname__content__submit">
-                  <button onClick={props.handleFirstnameSubmit}>
-                    <FontAwesomeIcon icon="check-circle" size="2x" />
-                  </button>
-                </div>
-              ) : (
-                <div className="account__container__form__firstname__content__submit">
-                  <FontAwesomeIcon icon="spinner" spin size="2x" />
-                </div>
-              )}
-            </div>
-          </div> */}
-          {/* EMAIL */}
-          {/* <div className="account__container__form__email">
-            <h4>Modifier votre email</h4>
-            <div className="account__container__form__email__content">
-              <CustomInput
-                type="text"
-                name="email"
-                defaultValue={props.email}
-                email={props.email}
-                onChange={props.handleEmailChange}
-                autoComplete="false"
-              />
-
-              {!props.startEmailSpinner ? (
-                <div className="account__container__form__email__content__submit">
-                  <button onClick={props.handleEmailSubmit}>
-                    <FontAwesomeIcon icon="check-circle" size="2x" />
-                  </button>
-                </div>
-              ) : (
-                <div className="account__container__form__email__content__submit">
-                  <FontAwesomeIcon icon="spinner" spin size="2x" />
-                </div>
-              )}
-            </div>
-          </div> */}
         </form>
       </div>
     </div>

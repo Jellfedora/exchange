@@ -49,6 +49,9 @@ class ConnectContainer extends Component {
           expires: 30,
         });
         Cookies.set("email", response.data.data.user.email, { expires: 30 });
+        Cookies.set("avatarUrl", response.data.data.user.avatarUrl, {
+          expires: 30,
+        });
         // Save user in store
         const action = { type: "LOG_IN", value: response.data.data.user };
         this.props.dispatch(action);

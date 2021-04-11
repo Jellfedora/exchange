@@ -15,9 +15,11 @@ import {
   faTimes,
   faSpinner,
   faEdit,
+  faCamera,
+  faSignInAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { faReact } from "@fortawesome/free-brands-svg-icons"; //For brand icons
-library.add(faReact, faBars, faTimes, faSpinner, faEdit);
+library.add(faReact, faBars, faTimes, faSpinner, faEdit, faCamera, faSignInAlt);
 
 const App = () => {
   return (
