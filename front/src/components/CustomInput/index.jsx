@@ -8,7 +8,8 @@ function CustomInput(props) {
       defaultValue={props.defaultValue ? props.defaultValue : ""}
       onChange={props.onChange}
       autoFocus={props.autofocus}
-      autoComplete={props.autoComplete ? "true" : "false"}
+      autoComplete={props.autoComplete ? "true" : "off"}
+      placeholder={props.placeholder ? props.placeholder : ""}
     />
   );
 }
