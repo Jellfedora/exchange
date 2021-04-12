@@ -17,38 +17,54 @@ const pages = [
 
 const Navigation = (props) => {
   return (
-    <div>
+    <div className="navigation">
       <Router>
-        <header className="header">
-          <Link to="/">
-            <h2>Exchange</h2>
-          </Link>
-          <div className="header__buttons">
-            {props.userIsConnected ? (
-              <Link to="/account">
-                <button className="header__buttons__account">
-                  <img src={props.avatarUrl} alt="Mon compte" />
-                </button>
+        {!props.startAutoLoginSpinner ? (
+          <div>
+            <header className="header">
+              <Link to="/">
+                <h2>Exchange</h2>
               </Link>
-            ) : (
-              <Link to="/connect">
-                <button className="header__buttons__login">
-                  <FontAwesomeIcon icon="sign-in-alt" size="2x" />
-                </button>
-              </Link>
-            )}
-            <Menu />
+              <div className="header__buttons">
+                {props.userIsConnected ? (
+                  <Link to="/account">
+                    <button className="header__buttons__account">
+                      {!props.startEditAvatarSpinner ? (
+                        <img src={props.avatarUrl} alt="Mon compte" />
+                      ) : (
+                        <div className="navigation__spinner">
+                          <FontAwesomeIcon icon="spinner" spin size="3x" />
+                        </div>
+                      )}
+                    </button>
+                  </Link>
+                ) : (
+                  <Link to="/connect">
+                    <button className="header__buttons__login">
+                      <FontAwesomeIcon icon="sign-in-alt" size="2x" />
+                    </button>
+                  </Link>
+                )}
+                <Menu />
+              </div>
+            </header>
+            <Switch>
+              {pages.map((content, id) => (
+                <Route
+                  key={id}
+                  path={content.path}
+                  component={content.componentName}
+                />
+              ))}
+            </Switch>
           </div>
-        </header>
-        <Switch>
-          {pages.map((content, id) => (
-            <Route
-              key={id}
-              path={content.path}
-              component={content.componentName}
-            />
-          ))}
-        </Switch>
+        ) : (
+          <div className="navigation">
+            <div className="navigation__spinner">
+              <FontAwesomeIcon icon="spinner" spin size="3x" />
+            </div>
+          </div>
+        )}
       </Router>
     </div>
   );
@@ -67,6 +83,7 @@ const mapStateToProps = (state) => {
     userIsConnected: state.user.isConnected,
     userFirstname: state.user.firstname,
     avatarUrl: state.user.avatarUrl,
+    startEditAvatarSpinner: state.user.startEditAvatarSpinner,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

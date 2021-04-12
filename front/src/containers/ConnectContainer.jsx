@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Connect from "../components/Connect";
 
 const apiUrl = process.env.REACT_APP_REST_API;
+const apiImgUrl = process.env.REACT_APP_REST_API_PUBLIC;
 
 class ConnectContainer extends Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class ConnectContainer extends Component {
         password: this.state.password,
       })
       .then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         this.setState({ startSpinner: false });
         // Save Cookie
         Cookies.set("id", response.data.data.user.id, { expires: 30 });
@@ -51,12 +52,16 @@ class ConnectContainer extends Component {
           expires: 30,
         });
         Cookies.set("email", response.data.data.user.email, { expires: 30 });
-        Cookies.set("avatarUrl", response.data.data.user.avatarUrl, {
-          expires: 30,
-        });
         // Save user in store
         const action = { type: "LOG_IN", value: response.data.data.user };
         this.props.dispatch(action);
+
+        // console.log(apiImgUrl + response.data.data.user.avatarUrl);
+        const action2 = {
+          type: "EDIT_AVATAR",
+          value: apiImgUrl + response.data.data.user.avatarUrl,
+        };
+        this.props.dispatch(action2);
         this.props.history.push("/");
       })
       .catch((error) => {

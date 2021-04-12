@@ -4,6 +4,7 @@ const initialState = {
   email: null,
   avatarUrl: null,
   isConnected: false,
+  startEditAvatarSpinner: false,
 };
 
 function userReducer(state = initialState, action) {
@@ -15,7 +16,7 @@ function userReducer(state = initialState, action) {
         id: action.value.id,
         firstname: action.value.firstname,
         email: action.value.email,
-        avatarUrl: action.value.avatarUrl,
+        // avatarUrl: action.value.avatarUrl,
         isConnected: true,
       };
       return nextState || state;
@@ -40,6 +41,12 @@ function userReducer(state = initialState, action) {
       nextState = {
         ...state,
         avatarUrl: action.value,
+      };
+      return nextState || state;
+    case "EDIT_AVATAR__SPINNER":
+      nextState = {
+        ...state,
+        startEditAvatarSpinner: !state.startEditAvatarSpinner,
       };
       return nextState || state;
     case "DELETE_USER":

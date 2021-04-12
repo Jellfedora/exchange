@@ -49,7 +49,10 @@ const Account = (props) => {
                 </div>
               )}
             </div>
-            <CustomFileInput submitEditAvatar={props.submitEditAvatar} />
+            <CustomFileInput
+              submitEditAvatar={props.submitEditAvatar}
+              goAvatarSpinner={props.goAvatarSpinner}
+            />
           </div>
           {inputs.map((content, id) => (
             <div className="account__container__form__field" key={id}>

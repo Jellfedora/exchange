@@ -5,7 +5,6 @@ import store from "../../store";
 // Import Sass
 import "../../styles/index.scss";
 // Import Components
-import Navigation from "../Navigation";
 import AutoLoginContainer from "../../containers/AutoLoginContainer";
 
 // Fontawesome 5
@@ -25,7 +24,6 @@ const App = () => {
   return (
     <Provider store={store} className="app">
       <AutoLoginContainer />
-      <Navigation />
     </Provider>
   );
 };

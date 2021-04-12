@@ -5,18 +5,20 @@ import Cookies from "js-cookie";
 import Account from "../components/Account";
 
 const apiUrl = process.env.REACT_APP_REST_API;
+const apiImgUrl = process.env.REACT_APP_REST_API_PUBLIC;
+
 class AccountContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: "",
+      firstname: null,
       startFirstnameSpinner: false,
-      email: "",
+      email: null,
       startEmailSpinner: false,
       password: "******",
       startPasswordSpinner: false,
       selectedAvatar: "",
-      avatarUrl: "",
+      avatarUrl: null,
       startAvatarSpinner: false,
       //   showerrorMsg: false,
     };
@@ -140,31 +142,44 @@ class AccountContainer extends Component {
       });
   };
 
+  goAvatarSpinner = () => {
+    this.setState({ startAvatarSpinner: true });
+    const action = {
+      type: "EDIT_AVATAR__SPINNER",
+    };
+    this.props.dispatch(action);
+  };
+
   // AVATAR
   submitEditAvatar = (e) => {
     // console.log(e);
-    this.setState({ startAvatarSpinner: true });
+
     const formData = new FormData();
     formData.append("file", e);
 
     axios
       .post(apiUrl + "user/avatar-edit/" + this.props.userId, formData)
       .then((response) => {
-        Cookies.set("avatarUrl", response.data.data.avatarUrl, {
-          expires: 30,
-        });
         const action = {
           type: "EDIT_AVATAR",
-          value: response.data.data.avatarUrl,
+          value: apiImgUrl + response.data.data.avatarUrl,
         };
         this.props.dispatch(action);
+        const action2 = {
+          type: "EDIT_AVATAR__SPINNER",
+        };
+        this.props.dispatch(action2);
         this.setState({
-          avatarUrl: response.data.data.avatarUrl,
+          avatarUrl: apiImgUrl + response.data.data.avatarUrl,
           startAvatarSpinner: false,
         });
       })
       .catch((error) => {
         this.setState({ startAvatarSpinner: false });
+        const action = {
+          type: "EDIT_AVATAR__SPINNER",
+        };
+        this.props.dispatch(action);
         // console.log(error);
       });
   };
@@ -176,12 +191,11 @@ class AccountContainer extends Component {
     axios
       .delete(apiUrl + "user/delete/" + this.props.userId)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         // Delete cookies
         Cookies.remove("id");
         Cookies.remove("firstname");
         Cookies.remove("email");
-        Cookies.remove("avatarUrl");
         // Delete store
         const action = {
           type: "DELETE_USER",
@@ -202,6 +216,7 @@ class AccountContainer extends Component {
         userAvatarUrl={this.state.avatarUrl}
         submitEditAvatar={this.submitEditAvatar}
         startAvatarSpinner={this.state.startAvatarSpinner}
+        goAvatarSpinner={this.goAvatarSpinner}
         // FIRSTNAME
         firstname={this.state.firstname}
         handleFirstnameChange={this.handleFirstnameChange}
