@@ -38,6 +38,9 @@ const Menu = (props) => {
             </div>
             {props.userIsConnected ? (
               <div className="menu__content__links__items">
+                <Link to="/search-users" onClick={() => setShowMenu(false)}>
+                  Rechercher
+                </Link>
                 <Link to="/account" onClick={() => setShowMenu(false)}>
                   Mon compte
                 </Link>

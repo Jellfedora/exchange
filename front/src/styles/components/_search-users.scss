@@ -1,0 +1,37 @@
+.search-users {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  & input {
+    width: 100%;
+    height: 2.5em;
+    border: none;
+    font-size: 1.1em;
+    margin-bottom: 1.5em;
+  }
+  &__results {
+    width: 100%;
+    &__result {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1em;
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      & img {
+        width: 3em;
+        height: 3em;
+        border-radius: 2em;
+        border: 2px solid #f1f1f1;
+      }
+      &__title {
+        margin-left: 1em;
+        color: $color-white;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    }
+  }
+}

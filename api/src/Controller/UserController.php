@@ -10,6 +10,7 @@ use App\Controller\DefaultController;
 use App\Entity\User;
 use App\Entity\Avatar;
 use App\Service\UserService;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class UserController extends DefaultController
@@ -147,6 +148,47 @@ class UserController extends DefaultController
                     'firstname' => $user->getFirstname(),
                     'avatarUrl' => $user->getAvatarUrl()
                 ]
+            );
+            return $this->json($data, 201);
+        }
+    }
+
+    /**
+     * Get user.
+     * @Route("/api/user/search_by_firstname/{id}", name="get_user_by_firstname", methods="POST")
+     * return user (but no connected client) if exists or never
+     */
+    public function getUserByFirstname($id, UserRepository $userRepository, Request $request, SerializerInterface $serializer)
+    {
+        $postData = $request->getContent();
+        $user = $serializer->deserialize($postData, User::class, 'json');
+
+        $search = $userRepository->findByFirstname($user);
+
+        $result = [];
+
+
+        foreach ($search as $key => $searchUser) {
+            if ($searchUser->getId() !== (int)$id) {
+                $result[$key] = [
+                    'id' => $searchUser->getId(),
+                    'firstname' => $searchUser->getFirstname(),
+                    'avatarUrl' => $searchUser->getAvatarUrl()
+                ];
+            }
+        }
+
+        if (!$search) {
+            $data['data'] = array(
+                'status'  => '401',
+                'message' => 'Aucun utilisateur enregistré à ce nom là'
+            );
+            return $this->json($data, 401);
+        } else {
+            $data['data'] = array(
+                'status'  => '201',
+                'message' => 'Utilisateur(s) récupéré(s)',
+                'users' => $result
             );
             return $this->json($data, 201);
         }
