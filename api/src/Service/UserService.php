@@ -20,12 +20,15 @@ class UserService extends DefaultController
 {
     private $validator;
     private $entityManager;
+    private $photoDir;
+    private $imageOptimizer;
 
-    public function __construct(ValidatorService $validator, EntityManagerInterface $entityManager, PasswordService $password)
+    public function __construct(ValidatorService $validator, EntityManagerInterface $entityManager, PasswordService $password, string $photoDir)
     {
         $this->validator = $validator;
         $this->entityManager = $entityManager;
         $this->password = $password;
+        $this->photoDir = $photoDir;
     }
 
     /**
@@ -131,13 +134,13 @@ class UserService extends DefaultController
      */
     public function editUserAvatar(Avatar $avatar, $uploadedFile)
     {
-        // Nom de l'image = $uploadedFile->getClientOriginalName()
-        // Extension = $uploadedFile->getClientOriginalExtension()
-
         // ImageName
         $imageName = $avatar->getId() . rand(0, 100) . "." . $uploadedFile->getClientOriginalExtension();
+
         if ($imageName) {
             $avatar->setImageName($imageName);
+            // On sauvegarde l'image
+            $uploadedFile->move($this->photoDir, $imageName);
         }
 
         // On valide les champs

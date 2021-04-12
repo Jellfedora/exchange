@@ -119,6 +119,40 @@ class UserController extends DefaultController
     }
 
     /**
+     * Lists all users.
+     * @Route("/api/get_user/{id}", name="get_user_by_id", methods="GET")
+     * return user if exists or never
+     */
+    public function getUserById($id)
+    {
+
+        // On récupére l'utilisateur
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($id);
+
+        if (!$user) {
+            $data['data'] = array(
+                'status'  => '401',
+                'message' => 'Aucun utilisateur enregistré'
+            );
+            return $this->json($data, 401);
+        } else {
+            $data['data'] = array(
+                'status'  => '201',
+                'message' => 'Utilisateur récupéré',
+                'user' => [
+                    'id' => $user->getId(),
+                    'email' => $user->getEmail(),
+                    'firstname' => $user->getFirstname(),
+                    'avatarUrl' => $user->getAvatarUrl()
+                ]
+            );
+            return $this->json($data, 201);
+        }
+    }
+
+    /**
      * @Route("/api/user/edit/{id}", name="edit_user", methods="PUT")
      */
     public function editUser($id, Request $request, SerializerInterface $serializer, UserService $userService)
@@ -224,15 +258,12 @@ class UserController extends DefaultController
 
 
 
-        // On sauvegarde l'image
-        foreach ($request->files as $uploadedFile) {
-            $file = $uploadedFile->move($directory, $user->getAvatarImageName());
-        }
+
 
         $data['data'] = array(
             'status'  => '201',
             'message' => 'Avatar de l\'utilisateur modifié',
-            'avatarUrl' => "https://127.0.0.1:8000/uploads/images/avatars/" . $avatar->getImageName()
+            'avatarUrl' => "uploads/images/avatars/" . $avatar->getImageName()
         );
         return $this->json($data, 201);
     }
