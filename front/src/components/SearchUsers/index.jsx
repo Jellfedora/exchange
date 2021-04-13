@@ -4,6 +4,7 @@ import CustomInput from "../CustomInput";
 const apiImgUrl = process.env.REACT_APP_REST_API_PUBLIC;
 
 const SearchUsers = (props) => {
+  console.log(props.searchUsersResult);
   return (
     <div className="search-users">
       <CustomInput
@@ -11,14 +12,15 @@ const SearchUsers = (props) => {
         name="search"
         onChange={props.handleSearchUsersChange}
         placeholder="Rechercher un utilisateur"
+        defaultValue={props.searchUsersTarget}
       />
       <div className="search-users__results">
         <div>
-          {props.searchResult.map((content, id) => (
+          {props.searchUsersResult.map((content, id) => (
             <button
               key={content.id}
               className="search-users__results__result"
-              onClick={() => props.talkToUser(content.id)}
+              onClick={() => props.talkToUser(content.firstname)}
             >
               <img src={apiImgUrl + content.avatarUrl} alt="" />
               <div className="search-users__results__result__title">

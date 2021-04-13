@@ -11,15 +11,18 @@ class SearchUsersContainer extends Component {
     super(props);
     this.state = {
       search: "",
-      searchResult: [],
+      // searchResult: [],
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props.searchUsersResult);
+  }
 
   handleSearchUsersChange = (e) => {
     let searchTarget = e.target.value;
-    this.setState({ search: searchTarget });
+    const action = { type: "SEARCH_USERS_TARGET", value: searchTarget };
+    this.props.dispatch(action);
     if (searchTarget) {
       axios
         .post(apiUrl + "user/search_by_firstname/" + this.props.userId, {
@@ -33,28 +36,30 @@ class SearchUsersContainer extends Component {
             result.push(element[1]);
           });
 
-          this.setState({
-            searchResult: result,
-          });
+          const action = { type: "SAVE_SEARCH_USERS", value: result };
+          this.props.dispatch(action);
         })
         .catch((error) => {
           console.log(error);
         });
     } else {
-      this.setState({ searchResult: [] });
+      const action = { type: "SAVE_SEARCH_USERS", value: [] };
+      this.props.dispatch(action);
+      // this.setState({ searchResult: [] });
     }
   };
 
   talkToUser = (e) => {
-    console.log(e);
+    let firstname = e.toLowerCase();
+    this.props.history.push("/talk/" + firstname);
   };
 
   render() {
     return (
-      <SearchUsers // FIRSTNAME
-        search={this.state.search}
+      <SearchUsers
+        searchUsersTarget={this.props.searchUsersTarget}
         handleSearchUsersChange={this.handleSearchUsersChange}
-        searchResult={this.state.searchResult}
+        searchUsersResult={this.props.searchUsersResult}
         talkToUser={this.talkToUser}
       />
     );
@@ -70,6 +75,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     userId: state.user.id,
+    searchUsersResult: state.user.searchUsersResult,
+    searchUsersTarget: state.user.searchUsersTarget,
   };
 };
 export default connect(

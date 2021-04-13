@@ -5,6 +5,8 @@ const initialState = {
   avatarUrl: null,
   isConnected: false,
   startEditAvatarSpinner: false,
+  searchUsersTarget: "",
+  searchUsersResult: [],
 };
 
 function userReducer(state = initialState, action) {
@@ -57,6 +59,18 @@ function userReducer(state = initialState, action) {
         email: null,
         avatarUrl: null,
         isConnected: false,
+      };
+      return nextState || state;
+    case "SEARCH_USERS_TARGET":
+      nextState = {
+        ...state,
+        searchUsersTarget: action.value,
+      };
+      return nextState || state;
+    case "SAVE_SEARCH_USERS":
+      nextState = {
+        ...state,
+        searchUsersResult: action.value,
       };
       return nextState || state;
     default:
