@@ -41,8 +41,10 @@ class UserService extends DefaultController
     {
         // Firstname
         $firstname = $user->getFirstname();
+        
         if ($firstname) {
-            $user->setFirstname($firstname);
+            $firstname_lowercase=strtolower($firstname);
+            $user->setFirstname($firstname_lowercase);
         }
 
         // Password
@@ -83,7 +85,8 @@ class UserService extends DefaultController
         // Firstname
         $firstname = $patchData->getFirstname();
         if ($firstname) {
-            $user->setFirstname($firstname);
+            $firstname_lowercase=strtolower($firstname);
+            $user->setFirstname($firstname_lowercase);
         }
 
         // Password

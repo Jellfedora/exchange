@@ -39,9 +39,17 @@ class User
      */
     private $avatar;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Conversation", inversedBy="users")
+     * @ORM\JoinTable(name="users_conversations")
+     */
+    private $conversations;
+
+
     public function __construct()
     {
         $this->avatar = new Avatar();
+        $this->conversation = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getAvatar(): ?Avatar
@@ -51,7 +59,7 @@ class User
 
     public function getAvatarUrl(): ?string
     {
-        return "https://127.0.0.1:8000/uploads/images/avatars/" . $this->avatar->getImageName();
+        return "uploads/images/avatars/" . $this->avatar->getImageName();
     }
 
     public function getAvatarImageName(): ?string
@@ -75,6 +83,11 @@ class User
     {
         return $this->email;
     }
+
+    // public function getGroups()
+    // {
+    //     return $this->groups;
+    // }
 
     public function setEmail(string $email): self
     {

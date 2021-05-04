@@ -31,3 +31,9 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
+  kernel.listener.command_dispatch:
+    class: App\EventListener\ConsoleExceptionListener
+    arguments:
+      $logger: "@logger"
+    tags:
+      - { name: kernel.event_listener, event: console.exception }
