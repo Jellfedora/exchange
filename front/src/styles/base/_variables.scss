@@ -1,7 +1,11 @@
 $color-dark: #020202;
 $color-blue: #2a5ee7;
 $color-less-blue: #628bf7;
+$color-other-blue: #2348a5;
 $color-white: #f1f1f1;
 $color-error: #f80606;
+$color-grey: rgb(92, 91, 91);
+$color-green: rgb(4, 243, 4);
 
 $linear-blue: linear-gradient($color-less-blue, $color-blue);
+$linear-other-blue: linear-gradient($color-other-blue, $color-blue);

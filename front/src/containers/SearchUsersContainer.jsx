@@ -52,6 +52,16 @@ class SearchUsersContainer extends Component {
   talkToUser = (e) => {
     let firstname = e.toLowerCase();
     this.props.history.push("/talk/" + firstname);
+
+    // On stocke le user à qui on veut parler
+    // console.log(this.props.searchUsersResult);
+    // let userInfos = [];
+    this.props.searchUsersResult.forEach((element) => {
+      if (element.firstname.toLowerCase() === firstname) {
+        const action = { type: "SAVE_USER_TO_TALK", value: element };
+        this.props.dispatch(action);
+      }
+    });
   };
 
   render() {

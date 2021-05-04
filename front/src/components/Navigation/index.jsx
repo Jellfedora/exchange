@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import TalkContainer from "../../containers/TalkContainer";
 import SearchUsersContainer from "../../containers/SearchUsersContainer";
 import ConnectContainer from "../../containers/ConnectContainer";
 import AccountContainer from "../../containers/AccountContainer";
@@ -11,6 +12,7 @@ import Menu from "../Menu";
 
 // Add a new page in top of list otherwise bug
 const pages = [
+  { path: "/talk", componentName: TalkContainer },
   { path: "/search-users", componentName: SearchUsersContainer },
   { path: "/account", componentName: AccountContainer },
   { path: "/connect", componentName: ConnectContainer },
@@ -24,30 +26,32 @@ const Navigation = (props) => {
         {!props.startAutoLoginSpinner ? (
           <div>
             <header className="header">
-              <Link to="/">
-                <h2>Exchange</h2>
-              </Link>
-              <div className="header__buttons">
-                {props.userIsConnected ? (
-                  <Link to="/account">
-                    <button className="header__buttons__account">
-                      {!props.startEditAvatarSpinner ? (
-                        <img src={props.avatarUrl} alt="Mon compte" />
-                      ) : (
-                        <div className="navigation__spinner">
-                          <FontAwesomeIcon icon="spinner" spin size="3x" />
-                        </div>
-                      )}
-                    </button>
-                  </Link>
-                ) : (
-                  <Link to="/connect">
-                    <button className="header__buttons__login">
-                      <FontAwesomeIcon icon="sign-in-alt" size="2x" />
-                    </button>
-                  </Link>
-                )}
-                <Menu />
+              <div className="header__container">
+                <Link to="/">
+                  <h2>Exchange</h2>
+                </Link>
+                <div className="header__container__buttons">
+                  {props.userIsConnected ? (
+                    <Link to="/account">
+                      <button className="header__container__buttons__account">
+                        {!props.startEditAvatarSpinner ? (
+                          <img src={props.avatarUrl} alt="Mon compte" />
+                        ) : (
+                          <div className="navigation__spinner">
+                            <FontAwesomeIcon icon="spinner" spin size="3x" />
+                          </div>
+                        )}
+                      </button>
+                    </Link>
+                  ) : (
+                    <Link to="/connect">
+                      <button className="header__container__buttons__login">
+                        <FontAwesomeIcon icon="sign-in-alt" size="2x" />
+                      </button>
+                    </Link>
+                  )}
+                  <Menu />
+                </div>
               </div>
             </header>
             <Switch>
